@@ -166,29 +166,34 @@ class Main:
 
     def populate_shops(request):
         try:
-            access_token = "Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN" # 7 days
-            link = "https://api.admitad.com/advcampaigns/website/2090016/?limit=50"
-            result = requests.get(link, headers={'Authorization': 'Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN'})
-            data = result.json()
-            programs = data["results"]
 
-            pr_ctgrs = []
-            for program in programs:
-                for category in program["categories"]:
-                    ctg, created = Category.objects.get_or_create(name = category["name"])
-                    pr_ctgrs.append(ctg)
-
-                pr, created = Program.objects.get_or_create(name = program["name"])
-
-                for pr_ctg in pr_ctgrs:
-                    pr.category.add(pr_ctg)
-                pr.actions_detail = program["actions_detail"][0]["name"]
-                pr.image = program["image"]
-                pr.gotolink = program["gotolink"]
-                pr.products_xml_link = program["products_xml_link"]
-                pr.save()
-                pr_ctgrs.clear()
-                print(pr)
+            c = Category.objects.get(name = "Программы и IT-сервисы .")
+            for ctg in Category.objects.all():
+                ctg.image = c.image
+                ctg.save()
+            # access_token = "Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN" # 7 days
+            # link = "https://api.admitad.com/advcampaigns/website/2090016/?limit=50"
+            # result = requests.get(link, headers={'Authorization': 'Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN'})
+            # data = result.json()
+            # programs = data["results"]
+            #
+            # pr_ctgrs = []
+            # for program in programs:
+            #     for category in program["categories"]:
+            #         ctg, created = Category.objects.get_or_create(name = category["name"])
+            #         pr_ctgrs.append(ctg)
+            #
+            #     pr, created = Program.objects.get_or_create(name = program["name"])
+            #
+            #     for pr_ctg in pr_ctgrs:
+            #         pr.category.add(pr_ctg)
+            #     pr.actions_detail = program["actions_detail"][0]["name"]
+            #     pr.image = program["image"]
+            #     pr.gotolink = program["gotolink"]
+            #     pr.products_xml_link = program["products_xml_link"]
+            #     pr.save()
+            #     pr_ctgrs.clear()
+            #     print(pr)
 
             ctx = {
             "state":"БД магазинов успешно обновлена"
