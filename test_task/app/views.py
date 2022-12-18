@@ -165,56 +165,69 @@ class Main:
 
 
     def populate_shops(request):
-        access_token = "Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN" # 7 days
-        link = "https://api.admitad.com/advcampaigns/website/2090016/?limit=50"
-        result = requests.get(link, headers={'Authorization': 'Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN'})
-        data = result.json()
-        programs = data["results"]
+        try:
+            access_token = "Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN" # 7 days
+            link = "https://api.admitad.com/advcampaigns/website/2090016/?limit=50"
+            result = requests.get(link, headers={'Authorization': 'Bearer SotGfyXnYgCnNvSgpszeAaXRHnjLvN'})
+            data = result.json()
+            programs = data["results"]
 
-        pr_ctgrs = []
-        for program in programs:
-            for category in program["categories"]:
-                ctg, created = Category.objects.get_or_create(name = category["name"])
-                pr_ctgrs.append(ctg)
+            pr_ctgrs = []
+            for program in programs:
+                for category in program["categories"]:
+                    ctg, created = Category.objects.get_or_create(name = category["name"])
+                    pr_ctgrs.append(ctg)
 
-            pr, created = Program.objects.get_or_create(name = program["name"])
+                pr, created = Program.objects.get_or_create(name = program["name"])
 
-            for pr_ctg in pr_ctgrs:
-                pr.category.add(pr_ctg)
-            pr.actions_detail = program["actions_detail"][0]["name"]
-            pr.image = program["image"]
-            pr.gotolink = program["gotolink"]
-            pr.products_xml_link = program["products_xml_link"]
-            pr.save()
-            pr_ctgrs.clear()
-            print(pr)
+                for pr_ctg in pr_ctgrs:
+                    pr.category.add(pr_ctg)
+                pr.actions_detail = program["actions_detail"][0]["name"]
+                pr.image = program["image"]
+                pr.gotolink = program["gotolink"]
+                pr.products_xml_link = program["products_xml_link"]
+                pr.save()
+                pr_ctgrs.clear()
+                print(pr)
 
-        ctx = {
-        "state":"БД магазинов успешно обновлена"
-        }
-        return render(request, "general/homepage.html", ctx)
+            ctx = {
+            "state":"БД магазинов успешно обновлена"
+            }
+            return render(request, "general/homepage.html", ctx)
+        except:
+            ctx = {
+            "state":"Истекло время действия токена, необходимого для доступа к API"
+            }
+            return render(request, "general/homepage.html", ctx)
 
 
 
     def populate_products(request):
 
-        link = "http://export.admitad.com/webmaster/websites/2090016/products/export_adv_products/?user=shaa80&code=nztwz8ig83&feed_id=22196&format=xml"
-        response = requests.get(link)
+        try:
+            link = "http://export.admitad.com/webmaster/websites/2090016/products/export_adv_products/?user=shaa80&code=nztwz8ig83&feed_id=22196&format=xml"
+            response = requests.get(link)
 
-        d = xmltodict.parse(response.content)
-        products = d["yml_catalog"]["shop"]["offers"]["offer"]
-        for product in products:
-            p, created = Product.objects.get_or_create(name = product["name"], model = product["model"])
-            p.price = float(product["price"])
-            try:
-                p.image = product["picture"][0]
-            except: pass
-            p.url = product["url"]
-            print(p)
-            p.save()
+            d = xmltodict.parse(response.content)
+            products = d["yml_catalog"]["shop"]["offers"]["offer"]
+            for product in products:
+                p, created = Product.objects.get_or_create(name = product["name"], model = product["model"])
+                p.price = float(product["price"])
+                try:
+                    p.image = product["picture"][0]
+                except: pass
+                p.url = product["url"]
+                print(p)
+                p.save()
 
 
-        ctx = {
-        "state":"БД товаров успешно обновлена"
-        }
-        return render(request, "general/homepage.html", ctx)
+            ctx = {
+            "state":"БД товаров успешно обновлена"
+            }
+            return render(request, "general/homepage.html", ctx)
+
+        except:
+            ctx = {
+            "state":"Ссылка для загрузки данных более не доступна"
+            }
+            return render(request, "general/homepage.html", ctx)
