@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+
+{%block homepage%}
+{%include 'include/navbar.html'%}
+
+
+
+      <section class="vh-100" style="background-color: #9fa8a3;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+
+                  <h3 class="mb-5">Изменение категории:</h3>
+                  <img src="{{category_model_form.instance.image.url}}" width = "300">
+
+
+                  <form action = "{% url 'edit_category' pk%}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                      <table class = "table table-borderless">
+
+                      {{ category_model_form.as_table }}
+
+
+
+                      <tr>
+
+                        <td>&nbsp;</td>
+                        <td><input type="submit" class = "btn btn-secondary"value="Изменить"></td>
+                      </tr>
+                    </table>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{%endblock homepage%}

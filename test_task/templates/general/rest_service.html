@@ -1,0 +1,179 @@
+{% extends "base.html"%}
+
+{%block homepage%}
+{%include 'include/navbar.html'%}
+
+<a  class = "btn btn-success btn-lg mt-3" href="{% url 'rest_categories'%}" style = "margin-right:15px; display:inline-block; float:right;" > REST категории </a>
+<nav aria-label="...">
+  <ul class="pagination pagination-lg" >
+    {% for page in pages%}
+    <li class="page-item"><button data-pagbtn={{page}} class="page-link">{{page}}</button></li>
+    {%endfor%}
+    <li class="page-item"></li>
+  </ul>
+</nav>
+
+
+
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">название</th>
+      <th scope="col">картинка</th>
+      <th scope="col">детали</th>
+      <th scope="col">категории</th>
+      <th scope="col">ссылка</th>
+      <th scope="col">продукты</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+
+
+
+  </tbody>
+</table>
+
+
+
+
+
+<script defer>
+      var pagbtns = document.querySelectorAll(".page-link")
+      for (var i = 0 ; i < pagbtns.length; i++)
+      {
+        pagbtns[i].addEventListener("click", function foo(){
+          getPage(this.dataset.pagbtn)
+        })
+      }
+
+
+
+
+
+      getPage(1)
+      function getPage(page_num)
+              {
+                var url = `api/v1/programs/page/${page_num}`
+
+                fetch( url ,
+                  {
+                    method:"GET",
+
+                  })
+
+                  .then((resp) => {
+                    return resp.json();
+                  })
+
+                  .then((response) =>{
+
+                    console.log("categories: ", response.programs  )
+
+                    editTable(response.programs)
+                    })
+              }
+
+          function editTable(programs)
+          {
+            table = document.querySelector(".table")
+
+
+            for (var j = 1; j < programs.length; j++)
+            {
+
+            table.rows[j].cells[1].innerHTML = programs[j].name
+            table.rows[j].cells[2].innerHTML = `<img src="${programs[j].image}" alt="" height = "100"/>`
+            table.rows[j].cells[3].innerHTML = programs[j].actions_detail
+            table.rows[j].cells[4].innerHTML = programs[j].category
+            table.rows[j].cells[5].innerHTML = `<a href="${programs[j].gotolink}">перейти на сайт</a>`
+            table.rows[j].cells[6].innerHTML = `<a href="${programs[j].products_xml_link}">список продуктов</a>`
+
+            }
+          }
+  </script>
+{%endblock homepage%}

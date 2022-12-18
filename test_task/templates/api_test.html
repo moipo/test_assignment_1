@@ -1,0 +1,8 @@
+{%extends "base.html"%}
+
+{% block api_test %}
+{%include 'include/navbar.html'%}
+<a class = "btn btn-primary mybutton" href="{%url 'get_program_page' 4%}">Магазины (страница)</a>
+<a class = "btn btn-primary mybutton" href="{%url 'get_categories_all' %}">Все категории</a>
+<a class = "btn btn-primary mybutton" href="{%url 'get_categories' 26%}"> Конкретная категория</a>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "base.html"%}
+
+{%block homepage%}
+{%include 'include/navbar.html'%}
+
+<a  class = "btn btn-success btn-lg mt-3" href="{% url 'rest_service'%}" style = "margin-right:15px; display:inline-block; float:right;" > REST магазины </a>
+<nav aria-label="...">
+  <ul class="pagination pagination-lg">
+    {% for page in pages%}
+    <li class="page-item"><button data-pagbtn={{page}} class="page-link">{{page}}</button></li>
+    {%endfor%}
+    <li class="page-item"></li>
+  </ul>
+</nav>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">название</th>
+      <th scope="col">картинка</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+
+<script defer>
+      var pagbtns = document.querySelectorAll(".page-link")
+      for (var i = 0 ; i < pagbtns.length; i++)
+      {
+        pagbtns[i].addEventListener("click", function foo(){
+          getPage(this.dataset.pagbtn)
+        })
+      }
+
+
+
+
+
+      getPage(1)
+      function getPage(page_num)
+              {
+                var url = `api/v1/categories/page/${page_num}`
+
+                fetch( url ,
+                  {
+                    method:"GET",
+
+                  })
+
+                  .then((resp) => {
+                    return resp.json();
+                  })
+
+                  .then((response) =>{
+
+                    console.log("categories: ", response.categories  )
+
+                    editTable(response.categories)
+                    })
+              }
+
+          function editTable(categories)
+          {
+            table = document.querySelector(".table")
+
+
+            for (var j = 1; j < categories.length; j++)
+            {
+
+            table.rows[j].cells[1].innerHTML = categories[j].name
+            table.rows[j].cells[2].innerHTML = `<img src="http://${window.location.host}${categories[j].image}" alt="" height = "75"/>`
+            }
+          }
+  </script>
+{%endblock homepage%}

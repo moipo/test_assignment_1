@@ -1,0 +1,67 @@
+{% extends "base.html"%}
+
+{%block homepage%}
+
+
+
+
+
+
+
+
+<div class="container" style = "margin-top:300px;">
+
+  <div class="d-flex p-2 bd-highlight justify-content-center">
+    <div class="d-flex flex-row bd-highlight mb-3">
+      <div class="p-2 bd-highlight">
+        <a class = "btn btn-primary mybutton" href="{% url 'api_test'%}">API Test</a>
+      </div>
+      <div class="p-2 bd-highlight">
+        <a class = "btn btn-primary mybutton" href="{% url 'rest_service'%}">REST сервис (магазины)</a>
+      </div>
+      <div class="p-2 bd-highlight">
+        <a class = "btn btn-primary mybutton" href="{% url 'rest_categories'%}">REST сервис (категории)</a>
+      </div>
+    </div>
+    <br>
+    <div class="d-flex flex-row bd-highlight">
+      <div class="p-2 bd-highlight">
+        <a class = "btn btn-primary mybutton" href="{% url 'search'%}">Поиск</a>
+      </div>
+      <div class="p-2 bd-highlight">
+         <a class = "btn btn-primary mybutton" href="{% url 'login_view'%}">Админка</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex p-2 bd-highlight justify-content-center">
+    <div class="d-flex flex-row bd-highlight mb-3">
+
+      <div class="p-2 bd-highlight">
+        <a class = "btn btn-secondary mybutton" href="{% url 'populate_shops'%}">обновить магазины и категории в БД (займет несколько минут)</a>
+      </div>
+
+      <div class="p-2 bd-highlight">
+        <a class = "btn btn-secondary mybutton" href="{% url 'populate_products'%}">обновить товары в БД (займет несколько минут)</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+    console.log("{{state}}")
+    if ("{{state}}"!="")
+    {
+      alert("{{state}}")
+    }
+</script>
+
+<style media="screen">
+  body{
+    background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-03/1614794443_46-p-fon-dlya-intro-55.jpg);
+    background-color:#508bfc;
+
+  }
+</style>
+
+{%endblock homepage%}

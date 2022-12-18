@@ -1,0 +1,25 @@
+{% extends "base.html"%}
+
+{%block homepage%}
+{%include 'include/navbar.html'%}
+
+<div class="list-group">
+  <br>
+  {%for category in categories%}
+  <a href="{% url 'edit_category' category.pk %}" class="list-group-item list-group-item-action flex-column align-items-start container text-center ">
+    <div class="d-flex w-100 justify-content-between ">
+      <h5 class="mb-1 container text-center">{{category}}</h5>
+    </div>
+    <br>
+    <img src="{{category.image.url}}" alt="" width="70">
+  </a>
+  <br>
+  {%endfor%}
+</div>
+
+<style media="screen">
+body{
+background-color: #9fa8a3;
+}
+</style>
+{%endblock homepage%}

@@ -1,0 +1,81 @@
+{% extends "base.html"%}
+
+{%block search%}
+{%include 'include/navbar.html'%}
+
+<div class="container">
+    <br/>
+	<div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body"></i>
+                    </div>
+                    <!--end of col-->
+                    <form action="{% url 'search'%}" method="get">
+
+                    <div class="col">
+                        {%if search_string%}
+                        <input value = "{{search_string}}" name = "search_string"class="form-control form-control-lg form-control-borderless" type="search" placeholder="{{seach_string}}">
+                        {%else%}
+                        <input name = "search_string"class="form-control form-control-lg form-control-borderless" type="search" placeholder="Поиск продуктов">
+                        {%endif%}
+                    </div>
+                    <!--end of col-->
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" type="submit">Поиск</button>
+                    </div>
+                      </form>
+                    <!--end of col-->
+                </div>
+            </form>
+        </div>
+        <!--end of col-->
+    </div>
+</div>
+
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">картинка</th>
+      <th scope="col">название</th>
+      <th scope="col">модель</th>
+      <th scope="col">цена</th>
+      <th scope="col">ссылка</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for product in page_obj%}
+    <tr>
+      <td><img src="{{product.image}}" alt="" height="150"></td>
+      <td>{{product.name}}</td>
+      <td>{{product.model}}</td>
+      <td>{{product.price}}</td>
+      <td><a href="{{product.url}}">перейти на сайт</a></td>
+    </tr>
+    {%endfor%}
+
+  </tbody>
+</table>
+
+<br>
+
+<nav aria-label="...">
+  <ul class="pagination pagination-sm">
+    {%for page_num in page_obj.paginator.page_range %}
+      {%if search_string%}
+        <li class="page-item"><a class="page-link" href="{%url 'search' page_num search_string %}">{{page_num}}</a></li>
+      {%else%}
+        <li class="page-item"><a class="page-link" href="{%url 'search' page_num None %}">{{page_num}}</a></li>
+      {%endif%}
+    {% endfor %}
+  </ul>
+</nav>
+
+
+
+{% endblock%}
