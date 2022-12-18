@@ -16,6 +16,7 @@ from django.core.paginator import Paginator
 from test_task.settings import DB_POPULATION_PERIOD
 from datetime import datetime, timezone
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 class Main:
     def homepage(request):
@@ -136,8 +137,9 @@ class Main:
         res = ""
         if search_string is not None:
             res = Product.objects.filter(
-                name__icontains=search_string, model__icontains=search_string
+                Q(name__icontains=search_string) | Q(model__icontains=search_string)
             )
+
         else:
             res = Product.objects.all()
 
@@ -146,7 +148,7 @@ class Main:
         try:
             if search_string_pag != search_string:
                 res = Product.objects.filter(
-                    name__icontains=search_string, model__icontains=search_string
+                    Q(name__icontains=search_string) | Q(model__icontains=search_string)
                 )
         except: pass
         p = Paginator(res,10)
